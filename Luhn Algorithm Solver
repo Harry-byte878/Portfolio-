@@ -1,0 +1,58 @@
+def cred_card_validator():
+    card_number = int(input("Enter card number: "))
+    doubled_digits = double_every_other_digit(number_to_list(card_number))
+    added_numbers = add_two_digits(doubled_digits)
+    sum_step_1 = add_step_1(added_numbers)
+    add_every_other_digit = add_second_digits(card_number)
+    result = add_step_1(added_numbers) + add_second_digits(card_number)
+    valid = valid_or_invalid(result)
+
+
+
+# adds each digit in the card number to a list
+def number_to_list(card_number):
+    list_of_digits = [ int(x) for x in str(card_number)]
+    return list_of_digits
+
+# Step 1.1: Double every second digit of the card number from right to left
+def double_every_other_digit(list_of_digits):
+    doubled_digits = [x*2 for x in list_of_digits[-2::-2]]
+    return doubled_digits
+
+# Step 1.2: if the doubled numbers from step 1.1 are 2 digits long, add them together
+# e.g. 12 becomes 1 + 2 = 3
+def add_two_digits(doubled_digits):
+    doubled_digits_list = [str(x) for x in doubled_digits]
+    add_numbers = []
+    for i in range(len(doubled_digits_list)):
+        if len(doubled_digits_list[i]) > 1:
+            split_digit = [int(x) for x in doubled_digits_list[i]]
+            new_number = split_digit[0] + split_digit[1]
+            add_numbers.append(new_number)
+        else:
+            add_numbers.append(doubled_digits[i])
+    return add_numbers
+
+# Step 2: Add all of the digits from step 1
+def add_step_1(step_1_results):
+    sum = 0
+    for i in range(len(step_1_results)):
+        sum = sum + step_1_results[i]
+    return sum
+
+# Step 3: Add every second digit from right to left of the card number
+def add_second_digits(card_number):
+    every_other_digit = number_to_list(card_number)[-1::-2]
+    sum = 0
+    for i in range(len(every_other_digit)):
+        sum = sum + every_other_digit[i]
+    return sum
+
+# Step 4: Add the result from steps 2 and 3
+
+# Step 5: if the result from step 4 is divisible by 10, the card number is valid, otherwise it is invalid
+def valid_or_invalid(result):
+    if result % 10 == 0:
+        print("The card number is valid")
+    else:
+        print("The card number is invalid")
